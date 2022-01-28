@@ -41,8 +41,9 @@ FUNCTION send_meta()
   LET host = fgl_getenv("META_HOST")
   LET myProcId = sfmt("%1:%2",host,fgl_getpid())
   LET name = arg_val(0)
+  MYASSERT(NOT myProcId.equals(ppid))
 
-  DISPLAY "name:",name,"ppid:", ppid, ",host:", host
+  DISPLAY "name:",name,",ppid:", ppid, ",host:", host,",myProcId:",myProcId
   LET vmmeta = --without meta
       SFMT('Connection {{encoding "UTF-8"} {protocolVersion "102"} {interfaceVersion "110"} {runtimeVersion "3.20.14-2525"} {compression "none"} {encapsulation "1"} {filetransfer "1"} {procIdParent "%1"} {procId "%2"} {frontEndID "%3"} {programName "%4"}}',
           ppid, myProcId, fgl_getenv("_FGLFEID"),name )
@@ -61,7 +62,7 @@ FUNCTION send_meta()
   LET climeta = s1.readLine()
   DISPLAY "climeta:", climeta
   LET om =
-      SFMT('om 0 {{an 0 UserInterface 0 {{name "%1"} {text "%2"} {charLengthSemantics "0"} {procId "%3"} {parentProcId "%4"} {dbDate "MDY4/"} {dbCentury "R"} {decimalSeparator "."} {thousandsSeparator ","} {errorLine "-1"} {commentLine "-1"} {formLine "2"} {messageLine "1"} {menuLine "0"} {promptLine "0"} {inputWrap "0"} {fieldOrder "1"} {currentWindow "109"} {focus "0"} {runtimeStatus "interactive"}} {{ActionDefaultList 1 {{fileName "yy"}} {}} {StyleList 61 {{fileName "xx"}} {}} {Window 109 {{name "x"} {posX "0"} {posY "0"} {width "1"} {height "1"}} {{Form 110 {{name "test"} {build "3.20.03"} {width "1"} {height "1"} {formLine "2"}} {{Grid 111 {{width "1"} {height "1"}} {{Label 112 {{text "x"} {posY "0"} {posX "0"} {gridWidth "1"}} {}}}}}}}}}}}',
+      SFMT('om 0 {{an 0 UserInterface 0 {{name "%1"} {text "%2"} {charLengthSemantics "0"} {procId "%3"} {procIdParent "%4"} {dbDate "MDY4/"} {dbCentury "R"} {decimalSeparator "."} {thousandsSeparator ","} {errorLine "-1"} {commentLine "-1"} {formLine "2"} {messageLine "1"} {menuLine "0"} {promptLine "0"} {inputWrap "0"} {fieldOrder "1"} {currentWindow "109"} {focus "0"} {runtimeStatus "interactive"}} {{ActionDefaultList 1 {{fileName "yy"}} {}} {StyleList 61 {{fileName "xx"}} {}} {Window 109 {{name "x"} {posX "0"} {posY "0"} {width "1"} {height "1"}} {{Form 110 {{name "test"} {build "3.20.03"} {width "1"} {height "1"} {formLine "2"}} {{Grid 111 {{width "1"} {height "1"}} {{Label 112 {{text "x"} {posY "0"} {posX "0"} {gridWidth "1"}} {}}}}}}}}}}}',
           name,name,myProcId, ppid)
   CALL s1.writeLine(om)
   LET omNum = 1
