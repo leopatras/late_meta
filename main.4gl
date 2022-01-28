@@ -18,20 +18,18 @@ MAIN
 END MAIN
 
 FUNCTION sub()
-  DEFINE vmmeta, climeta, ppid, host, myProcId, cmd, om STRING
+  DEFINE vmmeta, climeta, ppid, host, myProcId, om STRING
   CONSTANT mypid = 7777777
   DEFINE port INT
   LET ppid = qa_getAttr(0, "procId")
   LET host = getHost(ppid)
   CALL fgl_setenv("META_HOST", host)
   CALL fgl_setenv("META_PPID", ppid)
-  LET cmd="fglrun meta"
-  RUN cmd WITHOUT WAITING
-  --SLEEP 1
+  RUN "fglrun meta" WITHOUT WAITING
 END FUNCTION
 
 FUNCTION send_meta()
-  DEFINE vmmeta, climeta, ppid, host, myProcId, om, resp,name,cmd  STRING
+  DEFINE vmmeta, climeta, ppid, host, myProcId, om, resp,name  STRING
   DEFINE port, omNum INT
   DEFINE s1 base.Channel
   LET s1 = base.Channel.create()
@@ -55,8 +53,7 @@ FUNCTION send_meta()
     DISPLAY "wait with the meta"
     CALL fgl_setenv("META_PPID",myProcId)
     DISPLAY "ppid for meta2 must be:",myProcId
-    LET cmd="fglrun meta2 &"
-    RUN cmd
+    RUN "fglrun meta2" WITHOUT WAITING
     SLEEP 5
   END IF
   CALL s1.writeLine(vmmeta)
