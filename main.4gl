@@ -18,20 +18,20 @@ MAIN
 END MAIN
 
 FUNCTION sub()
-  DEFINE vmmeta, climeta, ppid, host, myProcId, om STRING
+  DEFINE vmmeta, climeta, ppid, host, myProcId, cmd, om STRING
   CONSTANT mypid = 7777777
   DEFINE port INT
   LET ppid = qa_getAttr(0, "procId")
   LET host = getHost(ppid)
   CALL fgl_setenv("META_HOST", host)
   CALL fgl_setenv("META_PPID", ppid)
-  RUN "fglrun meta" WITHOUT WAITING --call us and achieve send_meta()
-  SLEEP 1
-  RUN "fglrun meta2" WITHOUT WAITING --call us and achieve send_meta()
+  LET cmd="fglrun meta"
+  RUN cmd WITHOUT WAITING
+  --SLEEP 1
 END FUNCTION
 
 FUNCTION send_meta()
-  DEFINE vmmeta, climeta, ppid, host, myProcId, om, resp,name  STRING
+  DEFINE vmmeta, climeta, ppid, host, myProcId, om, resp,name,cmd  STRING
   DEFINE port, omNum INT
   DEFINE s1 base.Channel
   LET s1 = base.Channel.create()
@@ -44,7 +44,7 @@ FUNCTION send_meta()
   LET myProcId = sfmt("%1:%2",host,fgl_getpid())
   LET name = arg_val(0)
 
-  DISPLAY "ppid:", ppid, ",host:", host
+  DISPLAY "name:",name,"ppid:", ppid, ",host:", host
   LET vmmeta = --without meta
       SFMT('Connection {{encoding "UTF-8"} {protocolVersion "102"} {interfaceVersion "110"} {runtimeVersion "3.20.14-2525"} {compression "none"} {encapsulation "1"} {filetransfer "1"} {procIdParent "%1"} {procId "%2"} {frontEndID "%3"} {programName "%4"}}',
           ppid, myProcId, fgl_getenv("_FGLFEID"),name )
@@ -53,6 +53,10 @@ FUNCTION send_meta()
   CALL s1.dataAvailable() RETURNING status --flush
   IF name=="meta" THEN
     DISPLAY "wait with the meta"
+    CALL fgl_setenv("META_PPID",myProcId)
+    DISPLAY "ppid for meta2 must be:",myProcId
+    LET cmd="fglrun meta2 &"
+    RUN cmd
     SLEEP 5
   END IF
   CALL s1.writeLine(vmmeta)
