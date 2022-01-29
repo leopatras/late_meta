@@ -21,6 +21,12 @@ webrun: all fglwebrun
 gdcwebrun: all fglwebrun
 	FILTER=ALL GDC=1 fglwebrun/fglwebrun main
 
+fgljp:
+	git clone https://github.com/FourjsGenero/tool_fgljp.git fgljp
+
+fgljprun: all fgljp
+	fgljp/fgljp -v main
+
 clean:
-	rm -f *.42?
+	rm -f *.42? fglwebrun fgljp
 	

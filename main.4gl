@@ -62,8 +62,8 @@ FUNCTION send_meta()
   LET climeta = s1.readLine()
   DISPLAY "climeta:", climeta
   LET om =
-      SFMT('om 0 {{an 0 UserInterface 0 {{name "%1"} {text "%2"} {charLengthSemantics "0"} {procId "%3"} {procIdParent "%4"} {dbDate "MDY4/"} {dbCentury "R"} {decimalSeparator "."} {thousandsSeparator ","} {errorLine "-1"} {commentLine "-1"} {formLine "2"} {messageLine "1"} {menuLine "0"} {promptLine "0"} {inputWrap "0"} {fieldOrder "1"} {currentWindow "109"} {focus "0"} {runtimeStatus "interactive"}} {{ActionDefaultList 1 {{fileName "yy"}} {}} {StyleList 61 {{fileName "xx"}} {}} {Window 109 {{name "x"} {posX "0"} {posY "0"} {width "1"} {height "1"}} {{Form 110 {{name "test"} {build "3.20.03"} {width "1"} {height "1"} {formLine "2"}} {{Grid 111 {{width "1"} {height "1"}} {{Label 112 {{text "x"} {posY "0"} {posX "0"} {gridWidth "1"}} {}}}}}}}}}}}',
-          name,name,myProcId, ppid)
+      SFMT('om 0 {{an 0 UserInterface 0 {{name "%1"} {text "%2"} {charLengthSemantics "0"} {procId "%3"} {procIdParent "%4"} {dbDate "MDY4/"} {dbCentury "R"} {decimalSeparator "."} {thousandsSeparator ","} {errorLine "-1"} {commentLine "-1"} {formLine "2"} {messageLine "1"} {menuLine "0"} {promptLine "0"} {inputWrap "0"} {fieldOrder "1"} {currentWindow "109"} {focus "0"} {runtimeStatus "interactive"}} {{ActionDefaultList 1 {{fileName "yy"}} {}} {StyleList 61 {{fileName "xx"}} {}} {Window 109 {{name "%5"} {posX "0"} {posY "0"} {width "1"} {height "1"}} {{Form 110 {{name "test"} {build "3.20.03"} {width "1"} {height "1"} {formLine "2"}} {{Grid 111 {{width "1"} {height "1"}} {{Label 112 {{text "x"} {posY "0"} {posX "0"} {gridWidth "1"}} {}}}}}}}}}}}',
+          name, name, myProcId, ppid, name)
   CALL s1.writeLine(om)
   LET omNum = 1
   WHILE (resp := s1.readLine()) IS NOT NULL AND NOT s1.isEof()
