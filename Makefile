@@ -31,5 +31,6 @@ gdcfgljprun: all fgljp
 	GDCFGLSERVER=localhost:0 fgljp/fgljp -g -v main
 
 clean:
-	rm -f *.42? fglwebrun fgljp
+	rm -f *.42?
+	rm -rf fglwebrun fgljp
 	
